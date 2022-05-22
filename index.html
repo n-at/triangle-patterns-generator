@@ -123,7 +123,12 @@
                          data-bs-parent="#pattern-output-canvas-header"
                     >
                         <div class="accordion-body">
-                            <canvas id="pattern"></canvas>
+                            <div class="mb-1">
+                                <canvas id="pattern"></canvas>
+                            </div>
+                            <div>
+                                <button type="button" id="download" class="btn btn-sm btn-outline-secondary">Download</button>
+                            </div>
                         </div>
                     </div>
                 </div> <!-- .accordion-item -->
@@ -145,8 +150,13 @@
                          data-bs-parent="#pattern-output-svg-header"
                     >
                         <div class="accordion-body">
-                            <label for="pattern-svg" class="visually-hidden">SVG code</label>
-                            <textarea id="pattern-svg" class="form-control" rows="10"></textarea>
+                            <div class="mb-2">
+                                <label for="pattern-svg" class="visually-hidden">SVG code</label>
+                                <textarea id="pattern-svg" class="form-control" rows="10"></textarea>
+                            </div>
+                            <div>
+                                <button type="button" id="copy" class="btn btn-sm btn-outline-secondary">Copy ro clipboard</button>
+                            </div>
                         </div>
                     </div>
                 </div> <!-- .accordion-item -->
@@ -159,6 +169,15 @@
     document.getElementById('random-seed-generate').onclick = () => {
         document.getElementById('random-seed').value = Math.floor(Math.random() * 1000000);
         generate();
+    };
+    document.getElementById('download').onclick = () => {
+        const link = document.createElement('a');
+        link.href = document.getElementById('pattern').toDataURL();
+        link.download = "pattern.png"
+        link.click();
+    };
+    document.getElementById('copy').onclick = () => {
+        navigator.clipboard.writeText(document.getElementById('pattern-svg').value);
     };
 
     const colorsX = document.getElementById('color-x');
