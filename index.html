@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/triangle-patterns@1.0.1/dist/triangle-patters.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/triangle-patterns@1.1.0/dist/triangle-patters.js"></script>
     <title>triangle-patterns-generator</title>
 </head>
 <body>
@@ -63,6 +63,8 @@
                     <option value="default" selected>Default</option>
                     <option value="jitter">Jitter</option>
                     <option value="shadows">Shadows</option>
+                    <option value="shining">Shining</option>
+                    <option value="saturate">Saturate</option>
                 </select>
             </div>
             <div class="mb-3">
@@ -179,6 +181,8 @@
             colorStyle: document.getElementById('color-style').value,
             colorStyleJitterIntensity: document.getElementById('color-effect-intensity').valueAsNumber / 100.0,
             colorStyleShadowsIntensity: document.getElementById('color-effect-intensity').valueAsNumber / 100.0,
+            colorStyleShiningIntensity: document.getElementById('color-effect-intensity').valueAsNumber / 100.0,
+            colorStyleSaturateIntensity: document.getElementById('color-effect-intensity').valueAsNumber / 100.0,
         };
 
         const canvas = document.getElementById('pattern');
