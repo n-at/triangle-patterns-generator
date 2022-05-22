@@ -58,8 +58,8 @@
                 <select id="color-y" class="form-select"></select>
             </div>
             <div class="mb-3">
-                <label for="color-mode" class="form-label">Color mode</label>
-                <select id="color-mode" class="form-select">
+                <label for="color-style" class="form-label">Color style</label>
+                <select id="color-style" class="form-select">
                     <option value="default" selected>Default</option>
                     <option value="jitter">Jitter</option>
                     <option value="shadows">Shadows</option>
@@ -70,12 +70,8 @@
                 <input type="range" class="form-range" id="color-mix-ratio" min="0" max="100" value="50">
             </div>
             <div class="mb-3">
-                <label for="color-jitter-intensity" class="form-label">Jitter intensity</label>
-                <input type="range" class="form-range" id="color-jitter-intensity" min="0" max="100" value="15">
-            </div>
-            <div class="mb-3">
-                <label for="color-shadows-intensity" class="form-label">Shadows intensity</label>
-                <input type="range" class="form-range" id="color-shadows-intensity" min="0" max="100" value="85">
+                <label for="color-effect-intensity" class="form-label">Color effect intensity</label>
+                <input type="range" class="form-range" id="color-effect-intensity" min="0" max="100" value="25">
             </div>
             <hr>
             <div class="mb-3 text-end">
@@ -180,9 +176,9 @@
             colorsY: TrianglePattern.colors[document.getElementById('color-y').value],
 
             colorMixRatio: document.getElementById('color-mix-ratio').valueAsNumber / 100.0,
-            colorStyle: document.getElementById('color-mode').value,
-            colorStyleJitterIntensity: document.getElementById('color-jitter-intensity').valueAsNumber / 100.0,
-            colorStyleShadowsIntensity: document.getElementById('color-shadows-intensity').valueAsNumber / 100.0,
+            colorStyle: document.getElementById('color-style').value,
+            colorStyleJitterIntensity: document.getElementById('color-effect-intensity').valueAsNumber / 100.0,
+            colorStyleShadowsIntensity: document.getElementById('color-effect-intensity').valueAsNumber / 100.0,
         };
 
         const canvas = document.getElementById('pattern');
