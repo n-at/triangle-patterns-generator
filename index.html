@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/triangle-patterns@1.0.0/dist/triangle-patters.js"></script>
+    <title>triangle-patterns-generator</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">triangle patterns generator</a>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-4">
+            <div class="mb-3">
+                <label for="width" class="form-label">Image width</label>
+                <input type="number" id="width" class="form-control" value="600">
+            </div>
+            <div class="mb-3">
+                <label for="height" class="form-label">Image height</label>
+                <input type="number" id="height" class="form-control" value="400">
+            </div>
+            <div class="mb-3">
+                <label for="random-seed">Random seed</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="random-seed" value="123456">
+                    <button type="button" class="btn btn-outline-secondary" id="random-seed-generate">Generate</button>
+                </div>
+            </div>
+            <hr>
+            <div class="mb-3">
+                <label for="variance" class="form-label">Variance</label>
+                <input type="range" class="form-range" id="variance" min="0" max="100" value="5">
+            </div>
+            <div class="mb-3">
+                <label for="mesh-step-x" class="form-label">Mesh step X</label>
+                <input type="number" id="mesh-step-x" class="form-control" value="35">
+            </div>
+            <div class="mb-3">
+                <label for="mesh-step-y" class="form-label">Mesh step Y</label>
+                <input type="number" id="mesh-step-y" class="form-control" value="35">
+            </div>
+            <hr>
+            <div class="mb-3">
+                <label for="color-x" class="form-label">Colors X</label>
+                <select id="color-x" class="form-select"></select>
+            </div>
+            <div class="mb-3">
+                <label for="color-y" class="form-label">Colors Y</label>
+                <select id="color-y" class="form-select"></select>
+            </div>
+            <div class="mb-3">
+                <label for="color-mode" class="form-label">Color mode</label>
+                <select id="color-mode" class="form-select">
+                    <option value="default" selected>Default</option>
+                    <option value="jitter">Jitter</option>
+                    <option value="shadows">Shadows</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="color-mix-ratio" class="form-label">Color mix ratio</label>
+                <input type="range" class="form-range" id="color-mix-ratio" min="0" max="100" value="50">
+            </div>
+            <div class="mb-3">
+                <label for="color-jitter-intensity" class="form-label">Jitter intensity</label>
+                <input type="range" class="form-range" id="color-jitter-intensity" min="0" max="100" value="15">
+            </div>
+            <div class="mb-3">
+                <label for="color-shadows-intensity" class="form-label">Shadows intensity</label>
+                <input type="range" class="form-range" id="color-shadows-intensity" min="0" max="100" value="85">
+            </div>
+            <hr>
+            <div class="mb-3 text-end">
+                <button type="button" id="generate" class="btn btn-primary">Generate</button>
+            </div>
+        </div> <!-- .col-4 -->
+
+        <div class="col-8">
+            <div class="accordion" id="pattern-output">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="pattern-output-canvas-header">
+                        <button class="accordion-button"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#pattern-output-canvas"
+                                aria-expanded="true"
+                                aria-controls="pattern-output-canvas"
+                        >
+                            Canvas
+                        </button>
+                    </h2>
+                    <div id="pattern-output-canvas"
+                         class="accordion-collapse collapse show"
+                         aria-labelledby="pattern-output-canvas-header"
+                         data-bs-parent="#pattern-output-canvas-header"
+                    >
+                        <div class="accordion-body">
+                            <canvas id="pattern"></canvas>
+                        </div>
+                    </div>
+                </div> <!-- .accordion-item -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="pattern-output-svg-header">
+                        <button class="accordion-button collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#pattern-output-svg"
+                                aria-expanded="false"
+                                aria-controls="pattern-output-svg"
+                        >
+                            SVG
+                        </button>
+                    </h2>
+                    <div id="pattern-output-svg"
+                         class="accordion-svg collapse"
+                         aria-labelledby="pattern-output-svg-header"
+                         data-bs-parent="#pattern-output-svg-header"
+                    >
+                        <div class="accordion-body">
+                            <label for="pattern-svg" class="visually-hidden">SVG code</label>
+                            <textarea id="pattern-svg" class="form-control" rows="10"></textarea>
+                        </div>
+                    </div>
+                </div> <!-- .accordion-item -->
+            </div> <!-- .accordion -->
+        </div> <!-- .col-8 -->
+    </div> <!-- .row -->
+</div> <!-- .container-fluid -->
+
+<script>
+    document.getElementById('random-seed-generate').onclick = () => {
+        document.getElementById('random-seed').value = Math.floor(Math.random() * 1000000);
+    };
+    document.getElementById('generate').onclick = () => {
+        generate();
+    };
+
+    const colorsX = document.getElementById('color-x');
+    const colorsY = document.getElementById('color-y');
+
+    for (let color in TrianglePattern.colors) {
+        if (!TrianglePattern.colors.hasOwnProperty(color)) {
+            continue;
+        }
+
+        const optionX = document.createElement('option');
+        optionX.value = color;
+        optionX.text = color;
+        colorsX.options.add(optionX);
+
+        const optionY = document.createElement('option');
+        optionY.value = color;
+        optionY.text = color;
+        colorsY.options.add(optionY);
+    }
+
+    colorsX.value = 'PuBuGn';
+    colorsY.value = 'Viridis';
+
+    function generate() {
+        const options = {
+            width: document.getElementById('width').valueAsNumber,
+            height: document.getElementById('height').valueAsNumber,
+
+            seed: document.getElementById('random-seed').value,
+            variance: document.getElementById('variance').valueAsNumber / 100.0,
+
+            meshStepX: document.getElementById('mesh-step-x').valueAsNumber,
+            meshStepY: document.getElementById('mesh-step-y').valueAsNumber,
+
+            colorsX: TrianglePattern.colors[document.getElementById('color-x').value],
+            colorsY: TrianglePattern.colors[document.getElementById('color-y').value],
+
+            colorMixRatio: document.getElementById('color-mix-ratio').valueAsNumber / 100.0,
+            colorStyle: document.getElementById('color-mode').value,
+            colorStyleJitterIntensity: document.getElementById('color-jitter-intensity').valueAsNumber / 100.0,
+            colorStyleShadowsIntensity: document.getElementById('color-shadows-intensity').valueAsNumber / 100.0,
+        };
+
+        const canvas = document.getElementById('pattern');
+        canvas.width = options.width;
+        canvas.height = options.height;
+
+        const ctx = canvas.getContext('2d');
+        const svg = document.getElementById('pattern-svg');
+
+        const pattern = TrianglePattern(options);
+        pattern.draw(ctx);
+        svg.value = pattern.svg();
+    }
+
+    generate();
+</script>
+
+</body>
+</html>
